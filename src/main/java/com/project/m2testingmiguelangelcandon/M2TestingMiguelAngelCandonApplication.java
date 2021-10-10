@@ -333,6 +333,7 @@ Elige un parámetro para modificar: (sin tildes)
 	}
 
 	public void borrarTodo() {
-		;
+		usuarioRepository.deleteAllInBatch();
+		System.out.println("Base de datos borrada con éxito");
 	}
 }
