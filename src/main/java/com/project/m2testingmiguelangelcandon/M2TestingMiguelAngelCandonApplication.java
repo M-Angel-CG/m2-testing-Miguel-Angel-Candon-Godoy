@@ -88,10 +88,28 @@ Elige una opción:
 
 			//TODO: borrar uno y todos los usuarios
 			if (opcion == 6) {
+				try {
+					System.out.println("Escribe el id:");
+					int id = scanner.nextInt();
+					borrar(id);
+				} catch (InputMismatchException e) {
+					//e.printStackTrace();
+					System.out.println("El input no es válido");
+				}
 				scanner.nextLine();
 				scanner.nextLine();
 			}
 			if (opcion == 7) {
+				try {
+					System.out.println("¿Está seguro? (y/n)");
+					String conf = scanner.next();
+					if (conf.equalsIgnoreCase("Y")) {
+						borrarTodo();
+					}
+				} catch (InputMismatchException e) {
+					//e.printStackTrace();
+					System.out.println("El input no es válido");
+				}
 				scanner.nextLine();
 				scanner.nextLine();
 			}
@@ -307,5 +325,14 @@ Elige un parámetro para modificar: (sin tildes)
 				twitter,age,phone
 		));
 		System.out.println("Usuario creado");
+	}
+
+	public void borrar(int id) {
+		usuarioRepository.deleteById((long)id);
+		System.out.println("Usuario borrado con éxito");
+	}
+
+	public void borrarTodo() {
+		;
 	}
 }
