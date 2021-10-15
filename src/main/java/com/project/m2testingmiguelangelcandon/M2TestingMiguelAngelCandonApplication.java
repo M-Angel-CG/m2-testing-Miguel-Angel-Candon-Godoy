@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.nio.charset.StandardCharsets;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +15,12 @@ import java.util.Scanner;
 @SpringBootApplication
 public class M2TestingMiguelAngelCandonApplication implements CommandLineRunner {
 
+	/**
+	 * Inicialización de la base de datos
+	 */
 	@Autowired
 	UsuarioRepository usuarioRepository;
 
-	int opcion;
 
 	public static void main(String[] args) {
 		SpringApplication.run(M2TestingMiguelAngelCandonApplication.class, args);
@@ -28,6 +29,7 @@ public class M2TestingMiguelAngelCandonApplication implements CommandLineRunner 
 	@Override
 	public void run(String... args) throws Exception {
 		Scanner scanner = new Scanner(System.in);
+		int opcion = -10;
 		while(true) {
 			System.out.println("""
 Elige una opción:
@@ -86,7 +88,6 @@ Elige una opción:
 				scanner.nextLine();
 			}
 
-			//TODO: borrar uno y todos los usuarios
 			if (opcion == 6) {
 				try {
 					System.out.println("Escribe el id:");
@@ -119,10 +120,17 @@ Elige una opción:
 		}
 	}
 
+	/**
+	 * Función que devuelve todos los usuarios de la base de datos
+	 * @return Lista de todos los usuarios
+	 */
 	public List<Usuario> listaUsuarios() {
 		return usuarioRepository.findAll();
 	}
 
+	/**
+	 * Lista todos los usuarios dados
+	 */
 	public void listar() {
 		List<Usuario> usuarios = listaUsuarios();
 		if(!usuarios.isEmpty()) {
@@ -134,6 +142,9 @@ Elige una opción:
 		}
 	}
 
+	/**
+	 * Añade a la base de datos nuevos usuarios
+	 */
 	public void initRepo() {
 		if(listaUsuarios().isEmpty()) {
 			usuarioRepository.save(new Usuario(
@@ -155,11 +166,20 @@ Elige una opción:
 		}
 	}
 
-	public Optional<Usuario> existeUsuario(int id) {
-		return usuarioRepository.findById((long)id);
+	/**
+	 * Comprueba si existe un usuario por su id
+	 * @param id codigo que identifica a cada usuario
+	 * @return List<Usuario>
+	 */
+	public Optional<Usuario> existeUsuario(long id) {
+		return usuarioRepository.findById(id);
 	}
 
-	public void buscar(int id) {
+	/**
+	 * Imprime el usuario con esa id por consola
+	 * @param id codigo que identifica a cada usuario
+	 */
+	public void buscar(long id) {
 		Optional<Usuario> usuario = existeUsuario(id);
 		if(usuario.isPresent()) {
 			System.out.println(usuario.get());
@@ -168,7 +188,11 @@ Elige una opción:
 		}
 	}
 
-	public void modificar(int id) {
+	/**
+	 * Modifica al usuario con una id determinada dejando elegir los parámetros a modificar
+	 * @param id codigo que identifica a cada usuario
+	 */
+	public void modificar(long id) {
 		Optional<Usuario> optUsuario = existeUsuario(id);
 		if(optUsuario.isPresent()) {
 			Usuario usuario = optUsuario.get();
@@ -282,6 +306,9 @@ Elige un parámetro para modificar: (sin tildes)
 		}
 	}
 
+	/**
+	 * Crea un nuevo usuario
+	 */
 	public void crear() {
 		System.out.println("Introduce tus datos: ");
 		Scanner scanner = new Scanner(System.in);
@@ -327,11 +354,18 @@ Elige un parámetro para modificar: (sin tildes)
 		System.out.println("Usuario creado");
 	}
 
-	public void borrar(int id) {
-		usuarioRepository.deleteById((long)id);
+	/**
+	 * Borra al usuario de la id correspondiente
+	 * @param id codigo que identifica a cada usuario
+	 */
+	public void borrar(long id) {
+		usuarioRepository.deleteById(id);
 		System.out.println("Usuario borrado con éxito");
 	}
 
+	/**
+	 * Borra todos los usuarios de la base de datos
+	 */
 	public void borrarTodo() {
 		usuarioRepository.deleteAllInBatch();
 		System.out.println("Base de datos borrada con éxito");
