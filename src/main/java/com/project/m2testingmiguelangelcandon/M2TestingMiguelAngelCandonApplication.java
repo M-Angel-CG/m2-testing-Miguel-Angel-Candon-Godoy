@@ -40,6 +40,7 @@ Elige una opción:
 5- Modificar usuario
 6- Borrar usuario
 7- Borrar base de datos
+8- Nº de usuarios
 0- Salir
 					""");
 
@@ -114,10 +115,22 @@ Elige una opción:
 				scanner.nextLine();
 				scanner.nextLine();
 			}
+			if (opcion == 8) {
+				contarUsuarios();
+				scanner.nextLine();
+				scanner.nextLine();
+			}
 			if (opcion == 0) {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Función que imprime por pantalla el número de usuarios en la base de datos
+	 */
+	public void contarUsuarios() {
+		System.out.println("Nº de usuarios: " + usuarioRepository.count());
 	}
 
 	/**
