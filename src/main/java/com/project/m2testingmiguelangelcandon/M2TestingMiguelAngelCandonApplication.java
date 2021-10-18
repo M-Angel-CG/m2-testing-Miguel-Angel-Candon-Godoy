@@ -41,6 +41,7 @@ Elige una opción:
 6- Borrar usuario
 7- Borrar base de datos
 8- Nº de usuarios
+9- Comprobar si existe usuario por id
 0- Salir
 					""");
 
@@ -53,6 +54,8 @@ Elige una opción:
 
 			if(opcion == 1) {
 				initRepo();
+				scanner.nextLine();
+				scanner.nextLine();
 			}
 			if (opcion == 2) {
 				crear();
@@ -117,6 +120,23 @@ Elige una opción:
 			}
 			if (opcion == 8) {
 				contarUsuarios();
+				scanner.nextLine();
+				scanner.nextLine();
+			}
+			if (opcion == 9) {
+				try {
+					System.out.println("Escribe el id:");
+					int id = scanner.nextInt();
+					if(existeUsuario(id).isPresent()) {
+						System.out.println("El usuario con id " +
+								id + " existe.");
+					} else {
+						System.out.println("No existe el usuario con id " + id + ".");
+					}
+				} catch (InputMismatchException e) {
+					//e.printStackTrace();
+					System.out.println("El input no es válido");
+				}
 				scanner.nextLine();
 				scanner.nextLine();
 			}
